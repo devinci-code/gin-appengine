@@ -20,7 +20,7 @@ type GaeHandlerFunc func(c *gin.Context, gae context.Context)
 func GaeToGinHandler(handler GaeHandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if gae, ok := c.Get(KeyGaeContext); ok {
-			handler(c, gae.(appengine.Context))
+			handler(c, gae.(context.Context))
 		} else {
 			gae := appengine.NewContext(c.Request)
 			c.Set(KeyGaeContext, gae)
@@ -33,7 +33,7 @@ func GaeToGinHandler(handler GaeHandlerFunc) gin.HandlerFunc {
 // If there were any errors, will:
 // Calls `Warningf` if returned status code is < 500, otherwise `Errorf`
 // Criticalf on panic
-var GaeErrorLogger = GaeToGinHandler(func(c *gin.Context, gae appengine.Context) {
+var GaeErrorLogger = GaeToGinHandler(func(c *gin.Context, gae context.Context) {
 	defer func() {
 		if err := recover(); err != nil {
 			stack := make([]byte, 1<<16)
