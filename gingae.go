@@ -6,14 +6,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"appengine"
+	"google.golang.org/appengine"
+	"golang.org/x/net/context"
 )
 
 // KeyGaeContext is a key of appengine.Context object in gin.Context
-const KeyGaeContext = "appengine.Context"
+const KeyGaeContext = "context.Context"
 
 // GaeHandlerFunc is type of a typical app route handler function
-type GaeHandlerFunc func(c *gin.Context, gae appengine.Context)
+type GaeHandlerFunc func(c *gin.Context, gae context.Context)
 
 // GaeToGinHandler initializes Google App Engine context.
 func GaeToGinHandler(handler GaeHandlerFunc) gin.HandlerFunc {
